@@ -9,6 +9,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool isObscure = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +33,6 @@ class _LoginScreenState extends State<LoginScreen> {
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
@@ -57,40 +58,60 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 80,
               ),
-              const Text("Your Email",
-              style: TextStyle(
-                fontSize: 20,
-              ),),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: "email@adress.com",
-
-                  ),
+              const Text(
+                "Your Email",
+                style: TextStyle(
+                  fontSize: 20,
                 ),
-              const SizedBox(
-                height: 30,
-              ),
-              const Text("Password",
-              style: TextStyle(
-                fontSize: 20,
-              ),),
-              const SizedBox(
-                height: 20,
               ),
               TextFormField(
                 decoration: const InputDecoration(
-                  hintText: "6+ characters required"
+                  hintText: "email@adress.com",
                 ),
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                "Password",
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextFormField(
+                obscureText: isObscure,
+                obscuringCharacter: "*",
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.lock),
+                  hintText: "6+ characters required",
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      isObscure = !isObscure;
+                      setState(() {});
+                    },
+                    child: Icon(isObscure ? Icons.visibility : Icons.visibility_off),
+                  ),
+                ),
+              ),
+
+
               const SizedBox(
                 height: 90,
               ),
               Row(
                 children: [
-                  Expanded(child: ElevatedButton(onPressed: (){}, child: Text("Login",
-                  style: TextStyle(
-                    fontSize: 15,
-                  ),),
+                  Expanded(
+                      child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Login",
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -101,8 +122,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   )),
                 ],
               ),
-
-
             ],
           ),
         ),
