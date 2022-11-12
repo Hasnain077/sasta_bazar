@@ -9,8 +9,9 @@ class TextFormFieldComponent extends StatelessWidget {
   final String? title;
   final String? hint;
   final bool? isObscure;
+  final TextEditingController? controller;
 
-  const TextFormFieldComponent({Key? key,this.isObscure,this.suffixWidget,this.borderColor,this.hint,this.hintStyle,this.title,this.titleStyle}) : super(key: key);
+  const TextFormFieldComponent({Key? key,this.controller,this.isObscure,this.suffixWidget,this.borderColor,this.hint,this.hintStyle,this.title,this.titleStyle}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
