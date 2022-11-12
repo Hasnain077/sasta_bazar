@@ -13,9 +13,11 @@ class  MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+
         ChangeNotifierProvider(create: (_)=> LoginProvider()),
       ],
       child: MaterialApp(
+        theme: ThemeData(fontFamily: "Poppins"),
         debugShowCheckedModeBanner: false,
         home: LoginScreen(),
 
