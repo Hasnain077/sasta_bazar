@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "300961557281",
+    "project_id": "sasta-bazar-d6857",
+    "storage_bucket": "sasta-bazar-d6857.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300961557281:android:f1946beadb6afabe76ac60",
+        "android_client_info": {
+          "package_name": "sastabazar.com.admin_sasta_bazar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300961557281-adng190bc77p5de25e5s9c0f6orjfmk7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLmpE-XCYG1pLg3tSRMEIV0j0oDm9kod4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300961557281-adng190bc77p5de25e5s9c0f6orjfmk7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "300961557281-o2e2sn9tklumibq0nn361m6a1pdv1hmt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sastabazar.admin"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

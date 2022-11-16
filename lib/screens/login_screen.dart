@@ -2,10 +2,11 @@ import 'package:admin_sasta_bazar/components/common_button.dart';
 import 'package:admin_sasta_bazar/components/custom_background.dart';
 import 'package:admin_sasta_bazar/components/text_form_field.dart';
 import 'package:admin_sasta_bazar/providers/login_provider.dart';
+import 'package:admin_sasta_bazar/utils/my_routs.dart';
 import 'package:admin_sasta_bazar/utils/mythems.dart';
 import 'package:admin_sasta_bazar/utils/responsive_builder.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,8 +17,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // bool isObscure = true;
-  // bool isChecked = true;
+  bool isObscure = true;
+  bool isChecked = true;
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
@@ -25,9 +26,19 @@ class _LoginScreenState extends State<LoginScreen> {
   late Size size;
   late LoginProvider loginProvider;
 
+  get trigFail => null;
+
+
   @override
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
+    bool b = loginProvider.getLoggedInUser();
+    print("current user $b");
+    if (b) {
+   WidgetsBinding.instance.addPostFrameCallback((_) {
+     context.go(MyRoute.dashboard);
+   });
+    }
     super.initState();
   }
 
@@ -48,102 +59,118 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget get loginForm => Center(
         child: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
             elevation: 30,
-            child: Container(
-              width: double.maxFinite,
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text(
-                    "Signin",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 35,
+            child: SingleChildScrollView(
+              child: Container(
+                width: double.maxFinite,
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  const Text(
-                    'Welcome back',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.grey,
+                    Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                             Text(
+                              "Signin",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15,
+                              ),
+                            ),
+                             Text(
+                              'Welcome back',
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  TextFormFieldComponent(
-                    title: "Your Email",
-                    hint: "email@adress.com",
-                    controller: _emailController,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Consumer<LoginProvider>(
-                    builder: (_, ref, child) => TextFormFieldComponent(
-                      isObscure: ref.obscure,
-                      title: "Password",
-                      hint: "6+ charecters required",
-                      controller: _passController,
-                      suffixWidget: GestureDetector(
-                        onTap: () {
-                          ref.toggleObscure();
-                        },
-                        child: Icon(
-                          !ref.obscure
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          color: MyThem.textFromBorder,
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    TextFormFieldComponent(
+                      title: "Your Email",
+                      hint: "email@adress.com",
+                      controller: _emailController,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Consumer<LoginProvider>(
+                      builder: (_, ref, child) => TextFormFieldComponent(
+                        isObscure: ref.obscure,
+                        title: "Password",
+                        hint: "6+ charecters required",
+                        controller: _passController,
+                        suffixWidget: GestureDetector(
+                          onTap: () {
+                            ref.toggleObscure();
+                          },
+                          child: Icon(
+                            !ref.obscure
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: MyThem.textFromBorder,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Consumer<LoginProvider>(
-                    builder: (_, ref, child) => CheckboxListTile(
-                        value: ref.checked,
-                        title: const Text("Remember me"),
-                        controlAffinity: ListTileControlAffinity.leading,
-                        visualDensity:
-                            const VisualDensity(horizontal: -4, vertical: -4),
-                        onChanged: (checked) {
-                          ref.toggleCheckBox(checked ?? false);
-                        }),
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  Consumer<LoginProvider>(
-                    builder: (_, ref, child) => PrimaryButtonComponent(
-                      text: ref.isLoading ? "Loading..." : "Login",
-                      borderRadius: 8,
-                      verticalPadding: 10,
-                      textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      onPressed: ref.isLoading
-                          ? null
-                          : () {
-                              ref.login("username", "password");
-                            },
+                    const SizedBox(
+                      height: 10,
                     ),
-                  ),
-                ],
+                    Consumer<LoginProvider>(
+                      builder: (_, ref, child) => CheckboxListTile(
+                          value: ref.checked,
+                          title: const Text("Remember me"),
+                          controlAffinity: ListTileControlAffinity.leading,
+                          visualDensity:
+                              const VisualDensity(horizontal: -4, vertical: -4),
+                          onChanged: (checked) {
+                            ref.toggleCheckBox(checked ?? false);
+                          }),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Consumer<LoginProvider>(
+                      builder: (_, ref, child) => PrimaryButtonComponent(
+                        text: ref.isLoading ? "Loading..." : "Login",
+                        borderRadius: 8,
+                        verticalPadding: 10,
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        onPressed: ref.isLoading
+                            ? null
+                            : () async{
+                          bool isLogin = await ref.login(_emailController.text.trim(), _passController.text);
+                            trigFail?.change(true);
+                            if(isLogin && mounted){
+                              context.go(MyRoute.dashboard);
+                            }
+
+                              },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
