@@ -12,7 +12,18 @@ class TextFormFieldComponent extends StatelessWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
 
-  const TextFormFieldComponent({Key? key,this.focusNode,this.controller,this.isObscure,this.suffixWidget,this.borderColor,this.hint,this.hintStyle,this.title,this.titleStyle}) : super(key: key);
+  const TextFormFieldComponent(
+      {Key? key,
+      this.focusNode,
+      this.controller,
+      this.isObscure,
+      this.suffixWidget,
+      this.borderColor,
+      this.hint,
+      this.hintStyle,
+      this.title,
+      this.titleStyle})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +32,11 @@ class TextFormFieldComponent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-
-           title?? "Your Email",
-            style:titleStyle?? TextStyle(
-              color: Colors.black,
-            ),
+            title ?? "Your Email",
+            style: titleStyle ??
+                TextStyle(
+                  color: Colors.black,
+                ),
           ),
           const SizedBox(
             height: 15,
@@ -33,10 +44,8 @@ class TextFormFieldComponent extends StatelessWidget {
           Container(
             height: 45,
             child: TextFormField(
-           obscureText: isObscure?? false,
-
-
-
+              obscureText: isObscure ?? false,
+              controller: controller,
               textAlign: TextAlign.start,
               decoration: InputDecoration(
                 suffixIcon: suffixWidget,
@@ -50,14 +59,12 @@ class TextFormFieldComponent extends StatelessWidget {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
-
-                hintText: hint?? "email@adress.com",
+                hintText: hint ?? "email@adress.com",
               ),
             ),
           ),
         ],
       ),
-
     );
   }
 }

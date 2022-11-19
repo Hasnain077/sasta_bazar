@@ -4,9 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class LoginProvider with ChangeNotifier {
   bool _isObscure = true;
   bool _isChecked = false;
-
   bool get obscure => _isObscure;
-
   bool get checked => _isChecked;
   bool isLoading = false;
   User? currentUser;
@@ -15,7 +13,6 @@ class LoginProvider with ChangeNotifier {
     _isObscure = !_isObscure;
     notifyListeners();
   }
-
   toggleCheckBox(bool checked) {
     _isChecked = checked;
     notifyListeners();
@@ -23,24 +20,24 @@ class LoginProvider with ChangeNotifier {
 
   Future<bool> login(String username, String password) async {
     isLoading = true;
+    print(username);
     notifyListeners();
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: username,
-          password: password,
+        email: username,
+
+        password: password,
       );
       currentUser = credential.user;
       isLoading = false;
       notifyListeners();
-      return currentUser!= null;
-    }
-    on FirebaseAuthException catch (e) {
+      return currentUser != null;
+    } on FirebaseAuthException catch (e) {
       print(e.code);
       if (e.code == "invalid-email") {
         print("invalid email");
       }
-       if (e.code == 'user-not-found') {
-
+      if (e.code == 'user-not-found') {
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
@@ -49,14 +46,14 @@ class LoginProvider with ChangeNotifier {
       notifyListeners();
       return false;
     }
-
-
   }
-  bool getLoggedInUser(){
+
+  bool getLoggedInUser() {
     currentUser = FirebaseAuth.instance.currentUser;
-    return currentUser !=null;
+    return currentUser != null;
   }
-  Future<void> logout() async{
+
+  Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
   }
 }

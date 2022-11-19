@@ -1,5 +1,6 @@
 import 'package:admin_sasta_bazar/providers/login_provider.dart';
 import 'package:admin_sasta_bazar/screens/login_screen.dart';
+import 'package:admin_sasta_bazar/utils/my_routs.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,14 +22,16 @@ class  MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
+
       providers: [
 
         ChangeNotifierProvider(create: (_)=> LoginProvider()),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
+        routerConfig: MyRoute.router,
         theme: ThemeData(fontFamily: "Poppins"),
         debugShowCheckedModeBanner: false,
-        home: LoginScreen(),
+        // home: LoginScreen(),
 
       ),
     )

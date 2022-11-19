@@ -26,18 +26,15 @@ class _LoginScreenState extends State<LoginScreen> {
   late Size size;
   late LoginProvider loginProvider;
 
-  get trigFail => null;
-
-
   @override
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     bool b = loginProvider.getLoggedInUser();
     print("current user $b");
     if (b) {
-   WidgetsBinding.instance.addPostFrameCallback((_) {
-     context.go(MyRoute.dashboard);
-   });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.go(MyRoute.dashboard);
+      });
     }
     super.initState();
   }
@@ -82,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: const [
-                             Text(
+                            Text(
                               "Signin",
                               style: TextStyle(
                                 color: Colors.black,
@@ -90,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontSize: 15,
                               ),
                             ),
-                             Text(
+                            Text(
                               'Welcome back',
                               style: TextStyle(
                                 fontSize: 15,
@@ -159,13 +156,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         onPressed: ref.isLoading
                             ? null
-                            : () async{
-                          bool isLogin = await ref.login(_emailController.text.trim(), _passController.text);
-                            trigFail?.change(true);
-                            if(isLogin && mounted){
-                              context.go(MyRoute.dashboard);
-                            }
+                            : () async {
+                                // print(_emailController.text);
+                                bool isLogin = await ref.login(
+                                    _emailController.text.trim(),
+                                    _passController.text);
 
+                                if (isLogin && mounted) {
+                                  context.go(MyRoute.dashboard);
+                                }
                               },
                       ),
                     ),
