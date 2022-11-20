@@ -21,7 +21,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     bool b = LoginProvider().getLoggedInUser();
-    print("current user $b");
+
     if (!b) {
       WidgetsBinding.instance.addPersistentFrameCallback((_) {
         context.go(MyRoute.login);
@@ -33,75 +33,156 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Consumer<DashboardProvider>(
-      builder: (_, ref,child) {
-        return Scaffold(
-          primary: true,
-          // appBar: AppBar(
-          //   backgroundColor: Colors.transparent,
-          //   elevation: 0,
-          //   leading: GestureDetector(
-          //     onTap: () {
-          //       if (_scaffoldKey.currentState != null) {
-          //         if (_scaffoldKey.currentState!.isDrawerOpen) {
-          //           _scaffoldKey.currentState!.closeDrawer();
-          //         } else {
-          //           _scaffoldKey.currentState!.openDrawer();
-          //         }
-          //       }
-          //     },
-          //     child: Icon(
-          //       Icons.menu,
-          //       color: Colors.black,
-          //     ),
-          //   ),
-          // ),
-          body: ResponsiveBuilder(
-            mobile: Scaffold(
-              key: _scaffoldKey,
-              drawer: Drawer(
-                child: SizedBox(width: size.width * 0.7, child: drawerWidget()),
-              ),
-              body: Column(
-                  children: [
-
-
-                    Expanded(child: logOutButton())
-                  ],
-
-                  ),
+    return Consumer<DashboardProvider>(builder: (_, ref, child) {
+      return Scaffold(
+        primary: true,
+        // appBar: AppBar(
+        //   backgroundColor: Colors.transparent,
+        //   elevation: 0,
+        //   leading: GestureDetector(
+        //     onTap: () {
+        //       if (_scaffoldKey.currentState != null) {
+        //         if (_scaffoldKey.currentState!.isDrawerOpen) {
+        //           _scaffoldKey.currentState!.closeDrawer();
+        //         } else {
+        //           _scaffoldKey.currentState!.openDrawer();
+        //         }
+        //       }
+        //     },
+        //     child: Icon(
+        //       Icons.menu,
+        //       color: Colors.black,
+        //     ),
+        //   ),
+        // ),
+        body: ResponsiveBuilder(
+          mobile: Scaffold(
+            key: _scaffoldKey,
+            drawer: Drawer(
+              child: SizedBox(width: size.width * 0.7, child: drawerWidget()),
             ),
-            tablet: webDashboard(),
-            web: webDashboard(),
+            body: Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    if (_scaffoldKey.currentState != null) {
+                      if (_scaffoldKey.currentState!.isDrawerOpen) {
+                        _scaffoldKey.currentState!.closeDrawer();
+                      } else {
+                        _scaffoldKey.currentState!.openDrawer();
+                      }
+                      ref.toggleMobileExpansion(
+                          value: _scaffoldKey.currentState!.isDrawerOpen);
+                    }
+                  },
+                  child: Row(
+                    children: [
+                      Visibility(
+                          child: Container(
+                        width: 20,
+                        color: Colors.cyanAccent,
+                      )),
+                      Icon(
+
+                        _scaffoldKey.currentState != null
+                            ? (ref.isMobileDrawerOpen
+                                ? Icons.menu
+                                : Icons.close_rounded)
+                            : (ref.isDrawerExpanded
+                                ? Icons.menu
+                                : Icons.close_rounded),
+                        color: Colors.black,
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(child: logOutButton()),
+              ],
+            ),
           ),
-        );
-      }
-    );
+          tablet: webDashboard(ref.isDrawerExpanded, size, ref),
+          web: webDashboard(ref.isDrawerExpanded, size, ref),
+        ),
+      );
+    });
   }
 
-  Widget webDashboard() {
-    return Row(
+  Widget webDashboard(bool expanded, Size size, DashboardProvider ref) {
+    return Column(
       children: [
-        Expanded(flex: 1, child: drawerWidget()),
+        GestureDetector(
+          onTap: () {
+            if (_scaffoldKey.currentState != null) {
+              if (_scaffoldKey.currentState!.isDrawerOpen) {
+                _scaffoldKey.currentState!.closeDrawer();
+              } else {
+                _scaffoldKey.currentState!.openDrawer();
+              }
+              ref.toggleMobileExpansion(
+                  value: _scaffoldKey.currentState!.isDrawerOpen);
+            }
+            else{
+              ref.toggleExpansion();
+            }
+
+          },
+          child: Row(
+            children: [
+              Visibility(
+                visible: _scaffoldKey.currentState != null
+                    ? true
+                    : ref.isDrawerExpanded,
+                child: Container(
+                  width: 100,
+                  color: Colors.red,
+                ),
+              ),
+              Icon(
+                _scaffoldKey.currentState != null
+                    ? (ref.isMobileDrawerOpen
+                        ? Icons.close_rounded
+                        : Icons.menu)
+                    : (ref.isDrawerExpanded ? Icons.close_rounded : Icons.menu),
+                color: Colors.black,
+              ),
+            ],
+          ),
+        ),
         Expanded(
-          flex: 14,
-          child: logOutButton(),
-        )
+            child: Row(
+          children: [
+            AnimatedContainer(
+              width: expanded ? size.width * 0.2 : 100,
+              duration: const Duration(
+                microseconds: 300,
+              ),
+            ),
+            Expanded(
+              child: logOutButton(),
+            ),
+          ],
+        )),
       ],
     );
   }
 
   Widget logOutButton() {
     return Center(
-      child: Text("Logout"),
+      child: ElevatedButton(
+        onPressed: () async {
+          await LoginProvider().logout();
+          if (mounted) {
+            context.go(MyRoute.login);
+          }
+        },
+        child: Text("Logout"),
+      ),
     );
   }
 
   Widget drawerWidget() {
     return Container(
-      color: Colors.cyanAccent,
+      color: Colors.red,
     );
   }
-
-  }
-
+}

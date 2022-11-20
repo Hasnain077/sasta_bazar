@@ -1,3 +1,4 @@
+import 'package:admin_sasta_bazar/providers/dashboard_provider.dart';
 import 'package:admin_sasta_bazar/providers/login_provider.dart';
 import 'package:admin_sasta_bazar/screens/login_screen.dart';
 import 'package:admin_sasta_bazar/utils/my_routs.dart';
@@ -24,7 +25,7 @@ class  MyApp extends StatelessWidget {
     return MultiProvider(
 
       providers: [
-
+        ChangeNotifierProvider(create: (_)=>DashboardProvider()),
         ChangeNotifierProvider(create: (_)=> LoginProvider()),
       ],
       child: MaterialApp.router(
