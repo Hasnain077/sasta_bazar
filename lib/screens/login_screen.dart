@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             !ref.obscure
                                 ? Icons.visibility_off
                                 : Icons.visibility,
-                            color: MyThem.textFromBorder,
+                            color: MyThem.textFormBorder,
                           ),
                         ),
                       ),

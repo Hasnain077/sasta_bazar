@@ -1,3 +1,4 @@
+import 'package:admin_sasta_bazar/components/drawer_widget.dart';
 import 'package:admin_sasta_bazar/providers/dashboard_provider.dart';
 import 'package:admin_sasta_bazar/providers/login_provider.dart';
 import 'package:admin_sasta_bazar/screens/login_screen.dart';
@@ -59,7 +60,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           mobile: Scaffold(
             key: _scaffoldKey,
             drawer: Drawer(
-              child: SizedBox(width: size.width * 0.7, child: drawerWidget()),
+              child: SizedBox(
+                width: size.width * 0.7,
+                child: drawerWidget(),
+              ),
             ),
             body: Column(
               children: [
@@ -77,13 +81,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   },
                   child: Row(
                     children: [
-                      Visibility(
-                          child: Container(
-                        width: 20,
-                        color: Colors.cyanAccent,
-                      )),
+                      // Visibility(
+                      //     child: Container(
+                      //   width: 20,
+                      //   color: Colors.cyanAccent,
+                      // )),
                       Icon(
-
                         _scaffoldKey.currentState != null
                             ? (ref.isMobileDrawerOpen
                                 ? Icons.menu
@@ -120,23 +123,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
               }
               ref.toggleMobileExpansion(
                   value: _scaffoldKey.currentState!.isDrawerOpen);
-            }
-            else{
+            } else {
               ref.toggleExpansion();
             }
-
           },
           child: Row(
             children: [
-              Visibility(
-                visible: _scaffoldKey.currentState != null
-                    ? true
-                    : ref.isDrawerExpanded,
-                child: Container(
-                  width: 100,
-                  color: Colors.red,
-                ),
-              ),
+              Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(
+                    "assets/png/logo.png",
+                    height: 50,
+                  )),
               Icon(
                 _scaffoldKey.currentState != null
                     ? (ref.isMobileDrawerOpen
@@ -149,19 +147,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ),
         Expanded(
-            child: Row(
-          children: [
-            AnimatedContainer(
-              width: expanded ? size.width * 0.2 : 100,
-              duration: const Duration(
-                microseconds: 300,
-              ),
-            ),
-            Expanded(
-              child: logOutButton(),
-            ),
-          ],
-        )),
+          child: Row(
+            children: [
+              DrawerWidget(),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -183,6 +174,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget drawerWidget() {
     return Container(
       color: Colors.red,
+      // width: 100,
     );
   }
 }

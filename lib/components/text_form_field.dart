@@ -52,7 +52,7 @@ class TextFormFieldComponent extends StatelessWidget {
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
                   borderSide: BorderSide(
-                    color: borderColor ?? MyThem.textFromBorder,
+                    color: borderColor ?? MyThem.textFormBorder,
                     width: 1,
                   ),
                 ),
