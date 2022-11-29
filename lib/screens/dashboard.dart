@@ -149,7 +149,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Expanded(
           child: Row(
             children: [
-              DrawerWidget(menulist: [],),
+              DrawerWidget(menulist: [],isExpanded:ref.isDrawerExpanded),
             ],
           ),
         ),

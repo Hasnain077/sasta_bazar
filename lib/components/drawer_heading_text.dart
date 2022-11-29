@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 class DrawerHeadingText extends StatelessWidget {
   final String? title;
 
-  const DrawerHeadingText({Key? key, this.title}) : super(key: key);
+
+  const DrawerHeadingText({Key? key, this.title, })
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
