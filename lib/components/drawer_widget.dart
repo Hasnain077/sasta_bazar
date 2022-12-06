@@ -40,13 +40,13 @@ class DrawerWidget extends StatelessWidget {
                 leading: Icons.home_outlined,
 
                 id: 1,
-
+                 isExpanded: isExpanded ?? false,
               ),
               DrawerItem(
                 title: "POS",
                 leading: Icons.shopping_basket_outlined,
                 id: 2,
-
+                isExpanded: isExpanded ?? false,
               ),
               DrawerHeadingText(
                 title: "order Management",
@@ -59,19 +59,19 @@ class DrawerWidget extends StatelessWidget {
                 title: "Orders",
                 leading: Icons.shopping_cart,
                 id: 3,
-
+                isExpanded: isExpanded ?? false,
               ),
               DrawerItem(
                 title: "Order Refunds",
                 leading: Icons.receipt_long,
                 id: 4,
-
+                isExpanded: isExpanded ?? false,
               ),
               DrawerItem(
                 title: "Dispatch",
                 leading: Icons.speed,
                 id: 5,
-
+                isExpanded: isExpanded ?? false,
               ),
               DrawerHeadingText(
                 title: "item management",
@@ -82,19 +82,19 @@ class DrawerWidget extends StatelessWidget {
                 title: "Categories",
                 leading: Icons.lan,
                 id: 6,
-
+                isExpanded: isExpanded ?? false,
               ),
               DrawerItem(
                 title: "Items",
                 leading: Icons.diamond,
                 id: 7,
-
+              isExpanded: isExpanded ?? false,
               ),
               DrawerItem(
                 title: "Units",
                 leading: Icons.horizontal_rule_rounded,
                 id: 8,
-
+                isExpanded: isExpanded ?? false,
               ),
               DrawerHeadingText(
                 title: "delevery management",
@@ -105,19 +105,19 @@ class DrawerWidget extends StatelessWidget {
                 title: "Add Delivery Man",
                 leading: Icons.directions_run_outlined,
                 id: 9,
-
+                isExpanded: isExpanded ?? false,
               ),
               DrawerItem(
                 title: "Delivery Man List",
                 leading: Icons.filter_list,
                 id: 10,
-
+                isExpanded: isExpanded ?? false,
               ),
               DrawerItem(
                 title: "Reviews",
                 leading: Icons.star_border,
                 id: 11,
-
+isExpanded: isExpanded ?? false,
               ),
               DrawerHeadingText(
                 title: "employee management",
@@ -128,13 +128,13 @@ class DrawerWidget extends StatelessWidget {
                 title: "Employee Role",
                 leading: Icons.security,
                 id: 12,
-
+isExpanded: isExpanded ?? false,
               ),
               DrawerItem(
                 title: "Employee List",
                 leading: Icons.person,
                 id: 13,
-
+                isExpanded: isExpanded ?? false,
               ),
             ],
           ),
