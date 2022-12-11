@@ -1,8 +1,12 @@
 import 'package:admin_sasta_bazar/components/drawer_widget.dart';
+import 'package:admin_sasta_bazar/components/profile_menu_widget.dart';
+
 import 'package:admin_sasta_bazar/providers/dashboard_provider.dart';
 import 'package:admin_sasta_bazar/providers/login_provider.dart';
 import 'package:admin_sasta_bazar/screens/login_screen.dart';
+import 'package:admin_sasta_bazar/utils/mythems.dart';
 import 'package:admin_sasta_bazar/utils/responsive_builder.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +23,8 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
+  final User? user = FirebaseAuth.instance.currentUser;
+
   @override
   void initState() {
     bool b = LoginProvider().getLoggedInUser();
@@ -31,12 +37,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
   }
 
+  void _showDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text("Settings"),
+          actions: [
+            MaterialButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Consumer<DashboardProvider>(builder: (_, ref, child) {
       return Scaffold(
         primary: true,
+
         // appBar: AppBar(
         //   backgroundColor: Colors.transparent,
         //   elevation: 0,
@@ -96,10 +122,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 : Icons.close_rounded),
                         color: Colors.black,
                       ),
+                      Expanded(child: Container()),
+                      ProfileMenuWidget(),
                     ],
+
                   ),
                 ),
-                Expanded(child: logOutButton()),
+                Expanded(child: logoutButton()),
+
               ],
             ),
           ),
@@ -111,53 +141,45 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget webDashboard(bool expanded, Size size, DashboardProvider ref) {
-    return Column(
-      children: [
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Row(children: [
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: Image.asset(
+            "assets/png/logo.png",
+            height: 50,
+          ),
+        ),
         GestureDetector(
           onTap: () {
-            if (_scaffoldKey.currentState != null) {
-              if (_scaffoldKey.currentState!.isDrawerOpen) {
-                _scaffoldKey.currentState!.closeDrawer();
-              } else {
-                _scaffoldKey.currentState!.openDrawer();
-              }
-              ref.toggleMobileExpansion(
-                  value: _scaffoldKey.currentState!.isDrawerOpen);
-            } else {
-              ref.toggleExpansion();
-            }
+            ref.toggleExpansion();
           },
-          child: Row(
-            children: [
-              Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(
-                    "assets/png/logo.png",
-                    height: 50,
-                  )),
-              Icon(
-                _scaffoldKey.currentState != null
-                    ? (ref.isMobileDrawerOpen
-                        ? Icons.close_rounded
-                        : Icons.menu)
-                    : (ref.isDrawerExpanded ? Icons.close_rounded : Icons.menu),
-                color: Colors.black,
-              ),
-            ],
+          child: Icon(
+            ref.isDrawerExpanded ? Icons.close_rounded : Icons.menu,
+            color: Colors.black,
           ),
         ),
         Expanded(
-          child: Row(
-            children: [
-              DrawerWidget(isExpanded: expanded, menulist:[]),
-            ],
-          ),
+          child: Container(),
         ),
-      ],
-    );
+
+        ProfileMenuWidget(),
+
+      ]),
+      Expanded(
+        child: Row(
+          children: [
+            DrawerWidget(
+              isExpanded: expanded,
+              menulist: [],
+            )
+          ],
+        ),
+      ),
+    ]);
   }
 
-  Widget logOutButton() {
+  Widget logoutButton() {
     return Center(
       child: ElevatedButton(
         onPressed: () async {
