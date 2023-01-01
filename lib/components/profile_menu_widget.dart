@@ -1,3 +1,4 @@
+import 'package:admin_sasta_bazar/providers/login_provider.dart';
 import 'package:admin_sasta_bazar/utils/mythems.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -28,15 +29,22 @@ class ProfileMenuWidget extends StatelessWidget {
               PopupMenuItem(
                 child: profileNameAndImage(isMain: false),
               ),
+              PopupMenuItem(child: Divider()),
               PopupMenuItem(
-                child: Container(
-                  child: Text("Settings"),
+                onTap: () {},
+                padding: const EdgeInsets.only(left: 10),
+                child: const Text(
+                  "Settings",
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
                 ),
               ),
               PopupMenuItem(
-                child: Container(
-                  child: Text("Sign Out"),
-                ),
+                onTap: () async {
+                  await LoginProvider().logout();
+                },
+                child: const Text("Sign Out"),
               )
             ],
           );
@@ -66,9 +74,10 @@ class ProfileMenuWidget extends StatelessWidget {
           crossAxisAlignment:
               isMain ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
-            const Text(
-              "John Doe",
+            Text(
+              "John ${isMain ? "Doe" : ""}",
               style: TextStyle(
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: MyThem.drawerBackgroundColor),
             ),

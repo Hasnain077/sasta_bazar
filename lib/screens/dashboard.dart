@@ -128,7 +128,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                   ),
                 ),
-                Expanded(child: logoutButton()),
+
 
               ],
             ),
@@ -179,19 +179,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     ]);
   }
 
-  Widget logoutButton() {
-    return Center(
-      child: ElevatedButton(
-        onPressed: () async {
-          await LoginProvider().logout();
-          if (mounted) {
-            context.go(MyRoute.login);
-          }
-        },
-        child: Text("Logout"),
-      ),
-    );
-  }
+
 
   Widget drawerWidget() {
     return Container(
